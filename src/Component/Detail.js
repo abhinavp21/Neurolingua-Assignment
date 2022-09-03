@@ -1,22 +1,19 @@
 import React from 'react'
 import html2canvas from 'html2canvas';
 import downloadjs from "downloadjs"
+import jsPDF from 'jspdf';
 
 const Detail = ({ detail, removeDetail, setEditDetail, setIsOpen }) => {
 
-    async function download() {
-
-        const canvas = await html2canvas(document.getElementById(detail.id));
-        const dataURL = canvas.toDataURL('image/png');
-        downloadjs(dataURL, 'download.png', 'image/png');
-        // const input = document.getElementById(detail.id);
-        // html2canvas(input)
-        //     .then((canvas) => {
-        //         const imgData = canvas.toDataURL('certificate/png');
-        //         const pdf = new jsPDF();
-        //         pdf.addImage(imgData, 'JPEG', 0, 0);
-        //         pdf.save("download.pdf");
-        //     })
+    function download() {
+        const input = document.getElementById("id" + detail.id)
+        console.log(input);
+        html2canvas(input).then((canvas) => {
+            const img = canvas.toDataURL("image/png")
+            const pdf = new jsPDF("p", "pt")
+            pdf.addImage(img, "JPEG", 10, 50)
+            pdf.save("certificate.pdf")
+        }).catch(err => console.log(err))
     }
 
     return (
